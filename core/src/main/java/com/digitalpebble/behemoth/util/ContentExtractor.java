@@ -24,6 +24,9 @@ import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -49,6 +52,8 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.SequenceFileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -278,15 +283,39 @@ public class ContentExtractor extends Configured implements Tool {
                     }
                 } else {
                     contentBytes = inputDoc.getText().getBytes("UTF-8");
+                    JSONObject contentJSON = null;
+                    try {
+						contentJSON = (JSONObject) new JSONParser().parse(inputDoc.getText().substring(4));
+						
+					} catch (org.json.simple.parser.ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
                     if(dumpAnnotations) {
                         annots = inputDoc.getAnnotations();
                         ArrayList<String> annotsArrayList = new ArrayList<String>();
+                        
+                        HashMap<String, Collection<String>> keywordsMap = new HashMap<String, Collection<String>>();
+                        
                         for (int i = 0; i < annots.size(); i++) {
+                        	
+                        	Collection<String> keywords;   
+                        	if(keywordsMap.get(annots.get(i).getType())  != null){
+                        		 keywords= keywordsMap.get(annots.get(i).getType());
+                        	   }
+                        	else{
+                        		keywords = new HashSet<String>();
+                        	}
+                        	   Collection<String> featureValues = annots.get(i).getFeatures().values();
+                        	   featureValues.removeAll(Arrays.asList(""));
+                        	   keywords.addAll(featureValues);
+                        	   keywordsMap.put(annots.get(i).getType(), keywords);
+                        	   
+                          System.out.println(keywordsMap);
                           annotsArrayList.add(annots.get(i).toString());
                         }
-                        
-                        byte[] annotsBytes = annotsArrayList.toString().getBytes(Charset.forName("UTF-8"));
-                        contentBytes = concatAndDeepClone(contentBytes, annotsBytes);
+                        contentJSON.put("wordslists", keywordsMap);
+                        contentBytes = contentJSON.toJSONString().getBytes(Charset.forName("UTF-8"));
                     }
                 }
                 
