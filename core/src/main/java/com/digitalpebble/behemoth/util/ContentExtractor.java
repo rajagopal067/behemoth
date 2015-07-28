@@ -308,7 +308,10 @@ public class ContentExtractor extends Configured implements Tool {
                         	}
                         	   Collection<String> featureValues = annots.get(i).getFeatures().values();
                         	   featureValues.removeAll(Arrays.asList(""));
-                        	   keywords.addAll(featureValues);
+                        	   for(String featureValue:featureValues){
+                        		   keywords.add("\""+featureValue+"\"");   
+                        	   }
+                        	   
                         	   keywordsMap.put(annots.get(i).getType(), keywords);
                         	   
                           System.out.println(keywordsMap);
