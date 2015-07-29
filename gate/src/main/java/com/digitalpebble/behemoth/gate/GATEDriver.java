@@ -38,7 +38,6 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 import com.digitalpebble.behemoth.BehemothConfiguration;
-import com.digitalpebble.behemoth.BehemothDocument;
 import com.digitalpebble.behemoth.BehemothReducer;
 
 public class GATEDriver extends Configured implements Tool {

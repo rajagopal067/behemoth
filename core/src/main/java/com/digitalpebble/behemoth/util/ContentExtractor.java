@@ -318,6 +318,7 @@ public class ContentExtractor extends Configured implements Tool {
                           annotsArrayList.add(annots.get(i).toString());
                         }
                         contentJSON.put("wordslists", keywordsMap);
+                        System.out.println(contentJSON);
                         contentBytes = contentJSON.toJSONString().getBytes(Charset.forName("UTF-8"));
                     }
                 }
