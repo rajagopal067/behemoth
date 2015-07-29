@@ -25,5 +25,6 @@ public class SequenceFileConverterMapper extends
         doc.setContent(out.getData());
         // doc.setContent(value.toString().getBytes(Charset.forName("UTF-8")));
         context.write(new Text(key.toString()), doc);
+        
     }
 }

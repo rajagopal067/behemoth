@@ -300,19 +300,19 @@ public class ContentExtractor extends Configured implements Tool {
                         for (int i = 0; i < annots.size(); i++) {
                         	
                         	Collection<String> keywords;   
-                        	if(keywordsMap.get(annots.get(i).getType())  != null){
-                        		 keywords= keywordsMap.get(annots.get(i).getType());
+                        	if(keywordsMap.get("\"" + annots.get(i).getType() + "\"")  != null){
+                        		 keywords= keywordsMap.get("\"" + annots.get(i).getType() + "\"");
                         	   }
                         	else{
                         		keywords = new HashSet<String>();
                         	}
                         	   Collection<String> featureValues = annots.get(i).getFeatures().values();
-                        	   featureValues.removeAll(Arrays.asList(""));
+                        	   featureValues.removeAll(Arrays.asList(null,""));
                         	   for(String featureValue:featureValues){
                         		   keywords.add("\""+featureValue+"\"");   
                         	   }
                         	   
-                        	   keywordsMap.put(annots.get(i).getType(), keywords);
+                        	   keywordsMap.put("\"" + annots.get(i).getType() + "\"", keywords);
                         	   
                           System.out.println(keywordsMap);
                           annotsArrayList.add(annots.get(i).toString());
