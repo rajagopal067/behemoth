@@ -38,6 +38,7 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 import com.digitalpebble.behemoth.BehemothConfiguration;
+import com.digitalpebble.behemoth.BehemothDocument;
 import com.digitalpebble.behemoth.BehemothReducer;
 
 public class GATEDriver extends Configured implements Tool {
@@ -122,6 +123,11 @@ public class GATEDriver extends Configured implements Tool {
         DistributedCache.addCacheArchive(new URI(zip_application_path), job);
 
         job.set("gate.application.path", zip_application_path.toString());
+        job.set("gate.annotations.filter", "ElectronicsKeywords,Keyword");
+        job.set("gate.features.filter", "ElectronicsKeywords.string,ElectronicsKeywords.cleanString,ElectronicsKeywords.language," +
+        		"ElectronicsKeywords.minorType,ElectronicsKeywords.majorType," +
+                       "Keyword.string,Keyword.cleanString,Keyword.language,Keyword.minorType,Keyword.majorType");
+        job.set("gate.emptyannotationset", "false");
 
         int retValue = -1;
 

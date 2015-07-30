@@ -69,7 +69,7 @@ public abstract class AbstractGATEMapper extends MapReduceBase {
             for (Path la : localArchives) {
                 String localPath = la.toUri().toString();
                 LOG.info("LocalCache : " + localPath);
-                if (!localPath.endsWith(application_path))
+                if (!localPath.endsWith(application_path.substring(application_path.lastIndexOf("/")+1)))
                     continue;
                 // see if the gapp file is directly under the dir
                 applicationDescriptorURL = new URL("file://" + localPath + "/"
@@ -90,7 +90,7 @@ public abstract class AbstractGATEMapper extends MapReduceBase {
 
         if (applicationDescriptorURL == null)
             throw new RuntimeException("GATE app " + application_path
-                    + "not available in distributed cache");
+                    + " not available in distributed cache");
 
         processor = new GATEProcessor(applicationDescriptorURL);
         processor.setConf(config);
