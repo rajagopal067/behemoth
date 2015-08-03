@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -285,7 +286,10 @@ public class ContentExtractor extends Configured implements Tool {
                     contentBytes = inputDoc.getText().getBytes("UTF-8");
                     JSONObject contentJSON = null;
                     try {
-						contentJSON = (JSONObject) new JSONParser().parse(inputDoc.getText().substring(4));
+                    	String content = inputDoc.getText();
+                    	String cleanContent = content.substring(content.indexOf("{"));
+
+						contentJSON = (JSONObject) new JSONParser().parse(cleanContent);
 						
 					} catch (org.json.simple.parser.ParseException e) {
 						// TODO Auto-generated catch block

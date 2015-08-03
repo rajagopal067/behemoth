@@ -123,12 +123,18 @@ public class GATEDriver extends Configured implements Tool {
         DistributedCache.addCacheArchive(new URI(zip_application_path), job);
 
         job.set("gate.application.path", zip_application_path.toString());
-        job.set("gate.annotations.filter", "ElectronicsKeywords,Keyword");
-        job.set("gate.features.filter", "ElectronicsKeywords.string,ElectronicsKeywords.cleanString,ElectronicsKeywords.language," +
-        		"ElectronicsKeywords.minorType,ElectronicsKeywords.majorType," +
-                       "Keyword.string,Keyword.cleanString,Keyword.language,Keyword.minorType,Keyword.majorType");
+       /*
+        job.set("gate.annotations.filter", "ElectronicsAddress,ElectronicsCompany,ElectronicsDevice,ElectronicsDistrict,ElectronicsManufacturer,"+
+			"ElectronicsPartDescription,ElectronicsPartName");
+        job.set("gate.features.filter", "ElectronicsAddress.string,ElectronicsAddress.majorType,ElectronicsAddress.minorType,"+
+			   "ElectronicsCompany.string,ElectronicsCompany.majorType,ElectronicsCompany.minorType,"+
+			   "ElectronicsDevice.string,ElectronicsDevice.majorType,ElectronicsDevice.minorType,"+
+			   "ElectronicsDistrict.string,ElectronicsDistrict.majorType,ElectronicsDistrict.minorType,"+
+			   "ElectronicsManufacturer.string,ElectronicsManufacturer.majorType,ElectronicsManufacturer.minorType,"+
+			   "ElectronicsPartDescription.string,ElectronicsPartDescription.majorType,ElectronicsPartDescription.minorType,"+
+			   "ElectronicsPartName.string,ElectronicsPartName.majorType,ElectronicsPartName.minorType");
         job.set("gate.emptyannotationset", "false");
-
+        */
         int retValue = -1;
 
         try {
