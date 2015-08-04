@@ -232,7 +232,8 @@ public class ContentExtractor extends Configured implements Tool {
         }
     }
 
-    private void generateDocs(Path input, Path dir, int[] count)
+    @SuppressWarnings("unchecked")
+	private void generateDocs(Path input, Path dir, int[] count)
             throws IOException, ArchiveException {
 
         DocumentFilter docFilter = DocumentFilter.getFilters(getConf());
@@ -285,14 +286,14 @@ public class ContentExtractor extends Configured implements Tool {
                 } else {
                     contentBytes = inputDoc.getText().getBytes("UTF-8");
                     JSONObject contentJSON = null;
+                    String content=null,cleanContent=null;
                     try {
-                    	String content = inputDoc.getText();
-                    	String cleanContent = content.substring(content.indexOf("{"));
+                    	content = inputDoc.getText();
+                    	cleanContent = content.substring(content.indexOf("{\"_score"));
 
 						contentJSON = (JSONObject) new JSONParser().parse(cleanContent);
 						
 					} catch (org.json.simple.parser.ParseException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
                     if(dumpAnnotations) {
@@ -322,7 +323,6 @@ public class ContentExtractor extends Configured implements Tool {
                           annotsArrayList.add(annots.get(i).toString());
                         }
                         contentJSON.put("wordslists", keywordsMap);
-                        System.out.println(contentJSON);
                         contentBytes = contentJSON.toJSONString().getBytes(Charset.forName("UTF-8"));
                     }
                 }
